@@ -1,0 +1,276 @@
+/* ============================================================
+   星冕 VR3D — Home 3D 虚拟展厅（方案 §3.5.7）
+   ============================================================ */
+
+.home-stage {
+  position: relative;
+  min-height: 100vh;
+  display: grid;
+  align-content: center;
+  padding-block: clamp(120px, 16vh, 200px) clamp(60px, 10vh, 120px);
+  overflow: hidden;
+}
+
+/* 主视觉区：让内容处于 Z=0，背景远景 + 前后景卡片做 3D 分层 */
+.hero-zone {
+  position: relative;
+  z-index: 5;
+  transform-style: preserve-3d;
+}
+
+.hero-copy {
+  max-width: 980px;
+  transform: translateZ(20px);
+}
+.hero-copy .hero-title {
+  margin: 22px 0 10px;
+  /* 中文长句更适配的字号：随视口平滑缩放，上限收窄 */
+  font-size: clamp(1.7rem, 4.2vw, 3.4rem);
+  letter-spacing: .01em;
+  line-height: 1.18;
+  word-break: break-word;
+}
+.hero-copy .hero-title .stroke-line {
+  display: block;
+}
+.hero-copy .hero-sub {
+  margin-top: 18px;
+  max-width: 640px;
+  color: var(--text-2);
+}
+.hero-copy .hero-actions {
+  margin-top: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.hero-role {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 30px;
+}
+.hero-role .role-item {
+  font-size: .8rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  padding: 6px 14px;
+}
+
+/* 空间作品层：三张作品卡片悬浮在 Z 轴不同深度 */
+.spatial-works {
+  position: relative;
+  z-index: 6;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: clamp(14px, 2.4vw, 30px);
+  margin-top: clamp(60px, 10vh, 130px);
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+.spatial-works .sw-card {
+  position: relative;
+  min-width: 0;
+  transform-style: preserve-3d;
+}
+.sw-card--left   { grid-column: 1 / span 4; z-index: 1; }
+.sw-card--center { grid-column: 5 / span 4; z-index: 3; }
+.sw-card--right  { grid-column: 9 / span 4; z-index: 2; }
+
+.sw-card .sw-float { min-width: 0; transform-style: preserve-3d; will-change: transform; }
+.sw-card .work-card3d { min-width: 0; height: 100%; }
+.sw-card .sw-aspect { aspect-ratio: 4 / 3; }
+.work-card3d .sw-aspect img { height: 100%; }
+
+/* 深度分层装饰物（全息环） */
+.hero-float-1, .hero-float-2 { position: absolute; pointer-events: none; }
+.hero-float-1 { top: 6%; right: 4%; z-index: 3; width: 240px; height: 240px; }
+.hero-float-2 { bottom: 14%; left: 2%; z-index: 2; width: 150px; height: 150px; }
+.hero-float-1::before, .hero-float-2::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(139,124,255,.35);
+  box-shadow: 0 0 60px rgba(139,124,255,.18), inset 0 0 40px rgba(139,124,255,.12);
+}
+.hero-float-1::after, .hero-float-2::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  border: 1px dashed rgba(84,225,255,.3);
+}
+.hero-float-1::after { inset: 26px; animation: spinSlow 24s linear infinite; }
+.hero-float-2::after { inset: 18px; border-color: rgba(139,124,255,.4); animation: spinSlow 16s linear infinite reverse; }
+@keyframes spinSlow { to { transform: rotate(360deg); } }
+
+/* 滚动提示 */
+.scroll-cue {
+  position: relative;
+  z-index: 5;
+  margin-top: clamp(50px, 8vh, 90px);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--text-3);
+  font-size: .8rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.scroll-cue .cue-line {
+  width: 1px; height: 54px;
+  background: linear-gradient(180deg, var(--neon), transparent);
+  position: relative;
+  overflow: hidden;
+}
+.scroll-cue .cue-line::after {
+  content: "";
+  position: absolute;
+  left: 0; top: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(180deg, transparent, #fff);
+  animation: cueDrop 1.8s var(--ease-in-out) infinite;
+}
+@keyframes cueDrop {
+  0% { top: -100%; }
+  55% { top: 100%; }
+  100% { top: 100%; }
+}
+
+/* ---------- 沉浸模式入口横幅 ---------- */
+.immerse-banner {
+  position: relative;
+  z-index: 5;
+  margin-top: clamp(70px, 11vh, 150px);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+.immerse-inner {
+  padding: clamp(28px, 5vw, 54px);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.immerse-inner h3 { font-size: clamp(1.3rem, 2.4vw, 1.9rem); }
+.immerse-inner p { color: var(--text-2); margin-top: 6px; }
+.immerse-hud {
+  display: inline-grid;
+  grid-template-columns: auto auto auto;
+  gap: 18px;
+  align-items: center;
+}
+.immerse-hud .hud-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--neon-2);
+  box-shadow: var(--glow-cyan);
+  animation: blink 2.4s infinite;
+}
+.immerse-hud .hud-dot:nth-child(2) { animation-delay: .4s; }
+.immerse-hud .hud-dot:nth-child(3) { animation-delay: .8s; }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: .25; } }
+
+/* ---------- 首页分区标题联动 ---------- */
+.home-section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: clamp(28px, 5vh, 48px);
+}
+
+/* 精选作品网格（首页） */
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+.work-tile {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  display: block;
+  border: 1px solid var(--border-soft);
+}
+.work-tile img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 1.1s var(--ease-out);
+}
+.work-tile:hover img { transform: scale(1.08); }
+.work-tile .tile-meta {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 46px 20px 16px;
+  background: linear-gradient(180deg, transparent, rgba(5,6,10,.85));
+  color: #fff;
+}
+.work-tile .tile-meta small {
+  font-size: .72rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.7);
+}
+.work-tile .tile-meta h3 { margin-top: 4px; font-size: 1.1rem; }
+html[data-theme="light"] .work-tile .tile-meta {
+  background: linear-gradient(180deg, transparent, rgba(17,17,17,.78));
+}
+
+/* 首页技能滚动条 */
+.skill-strip {
+  overflow: hidden;
+  position: relative;
+  padding-block: 26px;
+  border-block: 1px solid var(--border-soft);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+.skill-track {
+  display: flex;
+  gap: 46px;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+.skill-track span {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  white-space: nowrap;
+  color: var(--text-2);
+  display: inline-flex;
+  align-items: center;
+  gap: 46px;
+}
+.skill-track span::after { content: "✦"; color: var(--neon); font-size: .8rem; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* 首页统计 */
+.home-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 18px;
+  margin-top: clamp(40px, 6vh, 70px);
+}
+.stat-box {
+  text-align: center;
+  padding: 28px 14px;
+  border-radius: var(--r-md);
+}
+.stat-box .num {
+  font-size: clamp(1.9rem, 3.4vw, 2.8rem);
+  font-weight: 800;
+  background: var(--neon-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.stat-box .label { margin-top: 6px; font-size: .82rem; color: var(--text-2); }

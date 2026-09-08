@@ -1,0 +1,158 @@
+/* ============================================================
+   星冕 VR3D — Header & Navigation (统一 Header，全部前台页面共用)
+   ============================================================ */
+
+.site-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 100;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  transition: transform .5s var(--ease), background-color .5s;
+}
+
+/* 顶部吸附形态：进入滚动后玻璃化 */
+.site-header.is-solid {
+  background: var(--glass-bg-strong);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  backdrop-filter: blur(20px) saturate(1.4);
+  border-bottom: 1px solid var(--glass-border);
+}
+.site-header.is-hidden { transform: translateY(-100%); }
+
+.header-container {
+  width: min(1680px, 100% - clamp(24px, 5vw, 80px));
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+/* Logo */
+.logo {
+  display: inline-flex;
+  align-items: baseline;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  color: var(--text);
+}
+.logo .dot {
+  color: var(--neon);
+  text-shadow: var(--glow-accent);
+}
+.logo .tagline {
+  margin-left: 10px;
+  font-size: .62rem;
+  letter-spacing: .3em;
+  font-weight: 600;
+  color: var(--text-3);
+  text-transform: uppercase;
+}
+
+/* Nav */
+.main-nav { display: flex; align-items: center; gap: 4px; }
+.nav-link {
+  position: relative;
+  padding: 9px 16px;
+  border-radius: var(--r-pill);
+  font-size: .92rem;
+  font-weight: 500;
+  color: var(--text-2);
+  transition: color .3s, background .3s;
+}
+.nav-link:hover { color: var(--text); background: var(--glass-highlight); }
+.nav-link.is-active { color: var(--text); font-weight: 700; }
+.nav-link.is-active::after {
+  content: "";
+  position: absolute;
+  left: 16px; right: 16px; bottom: 3px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--neon-grad);
+  box-shadow: var(--glow-accent);
+}
+
+.header-actions { display: flex; align-items: center; gap: 10px; }
+
+/* Theme toggle */
+.theme-toggle { position: relative; }
+.theme-toggle .icon-sun,
+.theme-toggle .icon-moon { position: absolute; inset: 0; transition: all .35s var(--ease); }
+
+html[data-theme="dark"] .theme-toggle .icon-sun { opacity: 0; transform: rotate(90deg) scale(.5); }
+html[data-theme="dark"] .theme-toggle .icon-moon { opacity: 1; transform: none; }
+html[data-theme="light"] .theme-toggle .icon-sun { opacity: 1; transform: none; }
+html[data-theme="light"] .theme-toggle .icon-moon { opacity: 0; transform: rotate(-90deg) scale(.5); }
+
+/* Mobile menu button */
+.menu-button { display: none; }
+
+/* Mobile drawer */
+.mobile-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  pointer-events: none;
+  visibility: hidden;
+}
+.mobile-drawer .drawer-backdrop {
+  position: absolute;
+  inset: 0;
+  background: var(--overlay);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  transition: opacity .4s;
+}
+.mobile-drawer .drawer-panel {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: min(86vw, 420px);
+  background: var(--bg-elev);
+  border-left: 1px solid var(--border);
+  padding: 96px 34px 40px;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform .5s var(--ease-out);
+  overflow-y: auto;
+}
+.mobile-drawer.open { pointer-events: auto; visibility: visible; }
+.mobile-drawer.open .drawer-backdrop { opacity: 1; }
+.mobile-drawer.open .drawer-panel { transform: none; }
+
+.drawer-link {
+  padding: 15px 4px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  color: var(--text);
+  border-bottom: 1px solid var(--border-soft);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.drawer-link small {
+  font-size: .7rem;
+  color: var(--text-3);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.drawer-link:hover { color: var(--neon); }
+.drawer-footer-links {
+  margin-top: auto;
+  padding-top: 28px;
+  display: flex;
+  gap: 14px;
+  color: var(--text-3);
+}
+.drawer-footer-links a:hover { color: var(--neon); }
+
+@media (max-width: 1024px) {
+  .main-nav { display: none; }
+  .menu-button { display: inline-grid; }
+}

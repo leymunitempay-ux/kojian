@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>联系我 — 星冕.</title>
+<meta name="description" content="联系 星冕：合作、交流、闲聊都欢迎。">
+<meta property="og:title" content="联系我 — 星冕.">
+<meta name="theme-color" content="#0B0B0D">
+<link rel="icon" type="image/svg+xml" href="../assets/icons/favicon.svg">
+<script>
+(function(){try{var t=JSON.parse(localStorage.getItem('xingmian_settings')||'null');var m=(t&&t.theme)||'dark';var d=m==='system'?(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):m;document.documentElement.setAttribute('data-theme',d);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();
+</script>
+<link rel="stylesheet" href="../assets/css/reset.css">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/global.css">
+<link rel="stylesheet" href="../assets/css/header.css">
+<link rel="stylesheet" href="../assets/css/footer.css">
+<link rel="stylesheet" href="../assets/css/vr3d.css">
+<link rel="stylesheet" href="../assets/css/pages.css">
+<link rel="stylesheet" href="../assets/css/responsive.css">
+</head>
+<body data-page="contact" data-root=".." data-star="50">
+
+  <div class="vr-backdrop"></div>
+  <div class="orb orb-cyan" style="width:400px;height:400px;top:5%;left:-160px"></div>
+
+  <div id="site-header-anchor"></div>
+
+  <main class="site-wrap">
+    <section class="page-hero">
+      <div class="ph-inner">
+        <nav class="breadcrumb">
+          <a href="../index.html">首页</a><span class="sep">/</span><span>联系</span>
+        </nav>
+        <span class="eyebrow" style="justify-content:center">Contact</span>
+        <h1 class="h1">联系我</h1>
+        <p>无论是合作、交流还是闲聊，都欢迎联系我。我会尽快回复。</p>
+      </div>
+    </section>
+
+    <section class="section--tight container">
+      <div class="contact-grid">
+        <div>
+          <div class="section-head" style="margin-bottom:24px">
+            <span class="eyebrow">Find me at</span>
+            <h2 class="h2" style="margin-top:12px">我的频道</h2>
+          </div>
+          <div class="contact-methods" id="contact-info"></div>
+          <div class="glass" style="margin-top:26px;border-radius:var(--r-md);padding:20px">
+            <h4 class="micro" style="margin-bottom:12px">Response Time</h4>
+            <div class="flex items-center gap-sm">
+              <span class="hud-dot" style="width:8px;height:8px;border-radius:50%;background:#3ddc84;box-shadow:0 0 8px rgba(61,220,132,.8);display:inline-block"></span>
+              <span class="small muted">通常在 24 小时内回复</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="glass" style="border-radius:var(--r-lg);padding:clamp(24px,3vw,40px)">
+            <h2 class="h2">发送消息</h2>
+            <p class="muted small" style="margin:8px 0 24px">演示环境：消息不会真的发送，仅展示表单交互。</p>
+            <form class="contact-form" id="contact-form">
+              <div class="form-row">
+                <div class="field"><label>你的名字 *</label><input class="input" name="name" required placeholder="怎么称呼你？"></div>
+                <div class="field"><label>你的邮箱 *</label><input class="input" name="email" type="email" required placeholder="name@example.com"></div>
+              </div>
+              <div class="field"><label>主题</label><input class="input" name="subject" placeholder="想聊点什么？"></div>
+              <div class="field"><label>消息 *</label><textarea class="textarea" name="message" required rows="6" placeholder="写下你的想法…"></textarea></div>
+              <button class="btn btn-neon btn-lg" type="submit">发送消息</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer-anchor"></div>
+
+  <script src="../assets/js/utils.js"></script>
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/store.js"></script>
+  <script src="../assets/js/db.js"></script>
+  <script src="../assets/js/md.js"></script>
+  <script src="../assets/js/theme.js"></script>
+  <script src="../assets/js/layout.js"></script>
+  <script src="../assets/js/fx.js"></script>
+  <script src="../assets/js/app.js"></script>
+</body>
+</html>

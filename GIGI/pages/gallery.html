@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>媒体画廊 — 星冕.</title>
+<meta name="description" content="星冕 媒体画廊：图片、设计与动画作品墙。">
+<meta property="og:title" content="媒体画廊 — 星冕.">
+<meta name="theme-color" content="#0B0B0D">
+<link rel="icon" type="image/svg+xml" href="../assets/icons/favicon.svg">
+<script>
+(function(){try{var t=JSON.parse(localStorage.getItem('xingmian_settings')||'null');var m=(t&&t.theme)||'dark';var d=m==='system'?(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):m;document.documentElement.setAttribute('data-theme',d);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();
+</script>
+<link rel="stylesheet" href="../assets/css/reset.css">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/global.css">
+<link rel="stylesheet" href="../assets/css/header.css">
+<link rel="stylesheet" href="../assets/css/footer.css">
+<link rel="stylesheet" href="../assets/css/vr3d.css">
+<link rel="stylesheet" href="../assets/css/pages.css">
+<link rel="stylesheet" href="../assets/css/gallery.css">
+<link rel="stylesheet" href="../assets/css/responsive.css">
+</head>
+<body data-page="gallery" data-root=".." data-star="50">
+
+  <div class="vr-backdrop"></div>
+  <div class="orb orb-neon" style="width:380px;height:380px;top:6%;right:-150px"></div>
+
+  <div id="site-header-anchor"></div>
+
+  <main class="site-wrap">
+    <section class="page-hero">
+      <div class="ph-inner">
+        <nav class="breadcrumb">
+          <a href="../index.html">首页</a><span class="sep">/</span><span>媒体</span>
+        </nav>
+        <span class="eyebrow" style="justify-content:center">Gallery</span>
+        <h1 class="h1">媒体画廊</h1>
+        <p>图片、设计、动画 —— 点击任意作品可全屏浏览。</p>
+      </div>
+    </section>
+
+    <div class="container" style="padding-bottom:clamp(60px,9vh,110px)">
+      <div class="filter-bar reveal">
+        <div class="flex wrap gap-sm" id="gallery-filter"></div>
+      </div>
+      <div class="masonry" id="gallery-grid"></div>
+    </div>
+  </main>
+
+  <div id="site-footer-anchor"></div>
+
+  <script src="../assets/js/utils.js"></script>
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/store.js"></script>
+  <script src="../assets/js/db.js"></script>
+  <script src="../assets/js/md.js"></script>
+  <script src="../assets/js/theme.js"></script>
+  <script src="../assets/js/layout.js"></script>
+  <script src="../assets/js/fx.js"></script>
+  <script src="../assets/js/app.js"></script>
+</body>
+</html>

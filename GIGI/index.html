@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>星冕. — Personal Digital Studio</title>
+<meta name="description" content="星冕的个人数字作品中心 — VR 3D 沉浸式作品展厅、项目、技术博客与媒体档案。">
+<meta name="keywords" content="星冕, 作品集, portfolio, 3D, VR, 前端, Python, Blender, AE">
+<meta property="og:title" content="星冕 Personal Digital Studio">
+<meta property="og:description" content="一个属于自己的个人数字作品中心。">
+<meta property="og:image" content="assets/images/avatar/avatar.svg">
+<meta name="theme-color" content="#0B0B0D">
+<link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+<script>
+(function(){try{var t=JSON.parse(localStorage.getItem('xingmian_settings')||'null');var m=(t&&t.theme)||'dark';var d=m==='system'?(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):m;document.documentElement.setAttribute('data-theme',d);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();
+</script>
+<link rel="stylesheet" href="assets/css/reset.css">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/global.css">
+<link rel="stylesheet" href="assets/css/header.css">
+<link rel="stylesheet" href="assets/css/footer.css">
+<link rel="stylesheet" href="assets/css/vr3d.css">
+<link rel="stylesheet" href="assets/css/home.css">
+<link rel="stylesheet" href="assets/css/pages.css">
+<link rel="stylesheet" href="assets/css/articles.css">
+<link rel="stylesheet" href="assets/css/enter.css">
+<link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body data-page="home" data-root="." data-star="170" data-rot-x="2" data-rot-y="3">
+
+  <!-- ============ 欢迎进入 · 戴上虚拟眼镜 ============ -->
+  <div class="enter-boot" id="enter-boot" aria-label="欢迎进入星冕的沉浸空间">
+    <div class="enter-card">
+      <p class="enter-kicker">星冕 PERSONAL DIGITAL STUDIO</p>
+      <h1 class="enter-title">欢迎进入<br><span class="grad">星冕的沉浸空间</span></h1>
+      <p class="enter-desc">这里是我的个人数字空间 —— 一个像戴上 VR 眼镜一样、可以环顾四周的网站。<br>拖动环绕、滚轮靠近，点亮五个分区光柱。</p>
+      <div class="enter-actions">
+        <button class="enter-btn" id="enter-btn" disabled>戴上虚拟眼镜，进入 <span class="arrow">→</span></button>
+        <button class="enter-skip" id="enter-skip">直接浏览</button>
+      </div>
+      <p class="enter-tip">🖱 鼠标拖拽环视 · 滚轮拉近 · 触屏滑动 · 点击光柱进入分区</p>
+      <p class="enter-status" id="enter-status">正在唤醒场景…</p>
+    </div>
+  </div>
+
+  <!-- 沉浸背景：星空粒子由 JS 追加，这里是渐变底 + 网格地平线 + 光球 -->
+  <div class="vr-backdrop"></div>
+  <div class="vr-grid-floor"></div>
+  <div class="orb orb-neon" style="width:520px;height:520px;top:-140px;right:-120px"></div>
+  <div class="orb orb-cyan" style="width:420px;height:420px;bottom:-160px;left:-140px"></div>
+
+  <div id="site-header-anchor"></div>
+
+  <main class="site-wrap">
+    <!-- ============ VR 展厅入口（首屏） ============ -->
+    <section class="home-stage scene3d">
+      <div class="container">
+        <div class="hero-zone">
+          <div class="hero-copy" data-depth="0.4">
+            <span class="eyebrow">Personal Digital Studio</span>
+            <h1 class="hero-title display-1" style="margin-top:20px">
+              <span data-hero-title>你好 我是 星冕.</span>
+            </h1>
+            <p class="hero-sub" data-hero-tag></p>
+            <div class="hero-actions">
+              <a class="btn btn-neon btn-lg" href="pages/works.html">进入作品展厅 →</a>
+              <a class="btn btn-outline btn-lg" href="pages/about.html">关于我</a>
+            </div>
+            <div class="hero-role" data-hero-role></div>
+          </div>
+
+          <div class="hero-float-1 orb-glow" data-depth="2.2"></div>
+          <div class="hero-float-2 orb-glow" data-depth="-1.6"></div>
+        </div>
+
+        <!-- 3D 悬浮精选作品 -->
+        <div class="spatial-works" id="spatial-works">
+          <!-- 由 app.js 注入 3 张 translateZ 分层卡片 -->
+        </div>
+
+        <div class="scroll-cue">
+          <span class="cue-line"></span>
+          <span>Scroll / Move to Explore</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 沉浸模式横幅 ============ -->
+    <section class="section container">
+      <div class="immerse-banner glass">
+        <div class="immerse-inner">
+          <div>
+            <h3>想更沉浸地浏览展厅？</h3>
+            <p>隐藏导航与装饰，扩大 3D 舞台，让鼠标变成你的镜头。</p>
+          </div>
+          <div class="flex items-center gap-md wrap">
+            <div class="immerse-hud"><span class="hud-dot"></span><span class="hud-dot"></span><span class="hud-dot"></span></div>
+            <button class="btn btn-primary btn-lg" data-enter-immersive>ENTER IMMERSIVE MODE</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 精选作品 ============ -->
+    <section class="section container" id="featured-section">
+      <div class="home-section-head reveal">
+        <div>
+          <span class="eyebrow">Featured Works</span>
+          <h2 class="h1" style="margin-top:14px">精选作品</h2>
+        </div>
+        <a class="btn btn-ghost" href="pages/works.html">查看全部作品 →</a>
+      </div>
+      <div class="featured-grid" id="home-featured-works"></div>
+    </section>
+
+    <!-- 技能跑马灯 -->
+    <div class="skill-strip" id="skill-strip"></div>
+
+    <!-- ============ 最新项目 + 最新文章 ============ -->
+    <section class="section container">
+      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:clamp(28px,4vw,56px)">
+        <div>
+          <div class="home-section-head reveal">
+            <div><span class="eyebrow">Projects</span><h2 class="h2" style="margin-top:12px">最新项目</h2></div>
+            <a class="btn btn-ghost btn-sm" href="pages/projects.html">全部 →</a>
+          </div>
+          <div class="grid" id="home-projects" style="gap:20px"></div>
+        </div>
+        <div>
+          <div class="home-section-head reveal">
+            <div><span class="eyebrow">Blog</span><h2 class="h2" style="margin-top:12px">最新文章</h2></div>
+            <a class="btn btn-ghost btn-sm" href="pages/articles.html">全部 →</a>
+          </div>
+          <div class="grid" id="home-articles" style="gap:20px"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 关于预览 + 数据 ============ -->
+    <section class="section container">
+      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(28px,4vw,60px);align-items:center">
+        <div class="reveal">
+          <span class="eyebrow">About Me</span>
+          <h2 class="h1" style="margin:16px 0">用代码、设计与创意<br>构建我的数字宇宙</h2>
+          <p class="lead" data-about-preview></p>
+          <div style="margin-top:26px">
+            <a class="btn btn-outline" href="pages/about.html">了解更多 →</a>
+          </div>
+        </div>
+        <div class="reveal" style="--d:.1s">
+          <div class="home-stats" id="home-stats"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 联系 CTA ============ -->
+    <section class="section container">
+      <div class="glass" style="border-radius:var(--r-lg);overflow:hidden">
+        <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:0">
+          <div style="padding:clamp(28px,4vw,52px)">
+            <span class="eyebrow">Get in touch</span>
+            <h2 class="h1" style="margin:16px 0 10px">一起创造点什么？</h2>
+            <p class="muted">无论是合作、交流还是闲聊，都欢迎联系我。</p>
+            <a class="btn btn-neon" style="margin-top:22px" href="pages/contact.html">联系我 →</a>
+          </div>
+          <div style="padding:clamp(28px,4vw,52px);border-left:1px solid var(--glass-border)">
+            <h3 class="h3" style="margin-bottom:18px">联系方式</h3>
+            <div class="contact-methods" data-contact-links></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer-anchor"></div>
+
+  <script src="assets/js/utils.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/db.js"></script>
+  <script src="assets/js/md.js"></script>
+  <script src="assets/js/theme.js"></script>
+  <script src="assets/js/layout.js"></script>
+  <script src="assets/js/fx.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/enter.js"></script>
+</body>
+</html>

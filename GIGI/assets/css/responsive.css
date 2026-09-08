@@ -1,0 +1,40 @@
+/* ============================================================
+   星冕 VR3D — Responsive（1920/1440/1200/992/768/576/375）
+   ============================================================ */
+
+@media (max-width: 1200px) {
+  .sw-card--left, .sw-card--center, .sw-card--right { grid-column: span 6; }
+  .spatial-works .sw-card:nth-child(3) { grid-column: 1 / span 6; }
+}
+
+@media (max-width: 992px) {
+  body { font-size: 15px; }
+  .hero-float-1, .hero-float-2 { display: none; }
+}
+
+@media (max-width: 768px) {
+  .sw-card--left, .sw-card--center, .sw-card--right { grid-column: 1 / -1; }
+  .spatial-works { gap: 16px; }
+  .spatial-works .sw-card + .sw-card { margin-top: 4px; }
+  .hero-copy .hero-actions { flex-direction: column; align-items: stretch; }
+  .hero-copy .hero-actions .btn { width: 100%; }
+  .filter-bar .search-inline { margin-left: 0; width: 100%; }
+  .filter-bar .search-inline input { width: 100%; }
+  .filter-bar .search-inline input:focus { width: 100%; }
+  .page-hero { padding-top: 120px; }
+  .detail-hero { padding-top: 110px; }
+}
+
+@media (max-width: 576px) {
+  .container { width: calc(100% - 40px); }
+  .header-container { width: calc(100% - 32px); }
+  .list-grid { grid-template-columns: 1fr; }
+  .stat-grid { grid-template-columns: repeat(2, 1fr); }
+  .stat-card { padding: 16px; }
+  .btn-lg { width: 100%; }
+}
+
+@media (max-width: 375px) {
+  body { font-size: 14.5px; }
+  .stat-grid { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="480" viewBox="0 0 480 480">
+  <defs>
+    <linearGradient id="ag" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1b1440"/>
+      <stop offset="100%" stop-color="#6a3cff"/>
+    </linearGradient>
+  </defs>
+  <rect width="480" height="480" fill="url(#ag)"/>
+  <circle cx="0" cy="0" r="8" fill="#fff" opacity="0.08"/>
+  <circle cx="73" cy="137" r="17" fill="#fff" opacity="0.08"/>
+  <circle cx="146" cy="274" r="26" fill="#fff" opacity="0.08"/>
+  <circle cx="219" cy="411" r="35" fill="#fff" opacity="0.08"/>
+  <circle cx="292" cy="128" r="44" fill="#fff" opacity="0.08"/>
+  <circle cx="365" cy="265" r="8" fill="#fff" opacity="0.08"/>
+  <circle cx="18" cy="402" r="17" fill="#fff" opacity="0.08"/>
+  <circle cx="91" cy="119" r="26" fill="#fff" opacity="0.08"/>
+  <circle cx="164" cy="256" r="35" fill="#fff" opacity="0.08"/>
+  <circle cx="237" cy="393" r="44" fill="#fff" opacity="0.08"/>
+  <circle cx="310" cy="110" r="8" fill="#fff" opacity="0.08"/>
+  <circle cx="383" cy="247" r="17" fill="#fff" opacity="0.08"/>
+  <circle cx="240" cy="240" r="150" fill="none" stroke="#fff" stroke-width="1" opacity="0.35"/>
+  <circle cx="240" cy="240" r="120" fill="none" stroke="#fff" stroke-width="1" opacity="0.25"/>
+  <text x="240" y="258" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="120" text-anchor="middle" fill="#ffffff">G</text>
+  <text x="240" y="330" font-family="Arial, Helvetica, sans-serif" font-size="18" letter-spacing="10" text-anchor="middle" fill="#ffffff" opacity="0.75">XINGMIAN</text>
+</svg>

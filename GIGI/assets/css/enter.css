@@ -1,0 +1,170 @@
+/* ============================================================
+   星冕 VR3D — 欢迎进入开场（enter boot）
+   参考 gerenwang 进场仪式：深空氛围 + 星点粒子 + 全屏欢迎卡
+   点击「戴上虚拟眼镜，进入」→ 淡出进入经典首页
+   ============================================================ */
+
+.enter-boot {
+  position: fixed;
+  inset: 0;
+  z-index: 2500;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(1100px 700px at 72% 18%, rgba(139,124,255,0.16), transparent 60%),
+    radial-gradient(800px 560px at 14% 92%, rgba(84,225,255,0.10), transparent 60%),
+    radial-gradient(600px 480px at 50% 50%, rgba(255,110,199,0.05), transparent 70%),
+    #050310;
+  overflow: hidden;
+  transition: opacity .9s ease, visibility .9s;
+}
+.enter-boot.gone { opacity: 0; visibility: hidden; pointer-events: none; }
+
+/* 星星粒子画布（enter.js 绘制） */
+#enter-stars {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* 底部流动光带（微弱动感，不刺眼） */
+.enter-boot::before,
+.enter-boot::after {
+  content: "";
+  position: absolute;
+  left: -30%;
+  width: 160%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(139,124,255,0.35), rgba(84,225,255,0.3), transparent);
+  filter: drop-shadow(0 0 6px rgba(139,124,255,0.4));
+  animation: enterSweep 9s linear infinite;
+}
+.enter-boot::before { top: 32%; }
+.enter-boot::after { top: 64%; animation-delay: 4.5s; opacity: .6; }
+@keyframes enterSweep {
+  0% { transform: translateX(-10%); opacity: 0; }
+  8% { opacity: 1; }
+  92% { opacity: 1; }
+  100% { transform: translateX(10%); opacity: 0; }
+}
+
+.enter-card {
+  position: relative;
+  z-index: 2;
+  max-width: 720px;
+  text-align: center;
+  color: #fff;
+}
+
+.enter-kicker {
+  font-size: .74rem;
+  letter-spacing: .38em;
+  text-transform: uppercase;
+  color: rgba(190, 200, 255, 0.85);
+  margin-bottom: 30px;
+}
+
+.enter-title {
+  font-size: clamp(2.2rem, 6.4vw, 4rem);
+  font-weight: 800;
+  line-height: 1.14;
+  letter-spacing: -.01em;
+}
+.enter-title .grad {
+  display: block;
+  background: linear-gradient(120deg, #54E1FF 0%, #8B7CFF 50%, #FF6EC7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 28px rgba(139,124,255,0.35));
+}
+
+.enter-desc {
+  margin: 26px auto 0;
+  max-width: 540px;
+  color: rgba(216, 220, 255, 0.78);
+  font-size: clamp(.96rem, 1.4vw, 1.08rem);
+  line-height: 1.95;
+}
+
+.enter-actions {
+  margin-top: 44px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.enter-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 17px 42px;
+  border-radius: 999px;
+  border: 0;
+  font-weight: 700;
+  font-size: 1.06rem;
+  letter-spacing: .03em;
+  color: #fff;
+  background: linear-gradient(120deg, #54E1FF, #8B7CFF 60%, #FF6EC7);
+  background-size: 180% 100%;
+  cursor: pointer;
+  box-shadow: 0 16px 50px rgba(139, 124, 255, 0.45), 0 0 0 1px rgba(255,255,255,.06) inset;
+  transition: transform .4s var(--ease), box-shadow .4s, background-position .6s;
+}
+.enter-btn:hover {
+  transform: translateY(-3px) scale(1.02);
+  background-position: 100% 0;
+  box-shadow: 0 24px 70px rgba(139, 124, 255, 0.6), 0 0 34px rgba(84,225,255,0.25);
+}
+.enter-btn:disabled { opacity: .55; cursor: wait; transform: none; }
+.enter-btn .arrow { display: inline-block; transition: transform .35s var(--ease); }
+.enter-btn:hover .arrow { transform: translateX(6px); }
+
+.enter-skip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.03);
+  color: rgba(216,220,255,.72);
+  font-size: .9rem;
+  cursor: pointer;
+  transition: all .35s;
+}
+.enter-skip:hover { color: #fff; border-color: rgba(139,124,255,.6); background: rgba(139,124,255,.12); }
+
+.enter-tip {
+  margin-top: 36px;
+  font-size: .82rem;
+  color: rgba(190, 196, 235, 0.5);
+  letter-spacing: .05em;
+}
+
+.enter-status {
+  margin-top: 16px;
+  font-size: .8rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(139, 124, 255, 0.9);
+  animation: enterBlink 1.5s ease-in-out infinite;
+}
+.enter-status.ready { animation: none; }
+@keyframes enterBlink { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+
+/* 移动端微调 */
+@media (max-width: 640px) {
+  .enter-kicker { letter-spacing: .22em; margin-bottom: 20px; }
+  .enter-actions { flex-direction: column; align-items: center; }
+  .enter-btn { width: min(340px, 90vw); justify-content: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .enter-boot::before, .enter-boot::after { animation: none; display: none; }
+}

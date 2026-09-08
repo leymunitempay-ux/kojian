@@ -1,0 +1,306 @@
+/* ============================================================
+   星冕 VR3D — VR 眼镜式 3D 沉浸视觉系统（方案 §3.5）
+   ============================================================ */
+
+/* ---------- 3D 场景容器 ---------- */
+.scene3d {
+  perspective: var(--perspective);
+  perspective-origin: 50% 30%;
+}
+.scene3d .scene-space {
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+/* 背景远景层（默认 1x） */
+.layer-bg    { will-change: transform; }
+/* 中景层 3x */
+.layer-mid   { will-change: transform; }
+/* 前景/作品层 6x */
+.layer-front { will-change: transform; }
+/* 前景装饰 10x */
+.layer-deco  { will-change: transform; }
+
+/* 由 JS 注入的视差位移类 */
+.parallax-move { transform: translate3d(var(--px, 0), var(--py, 0), 0); }
+
+/* ---------- 星空 / 粒子背景 ---------- */
+#starfield {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  opacity: .95;
+}
+html[data-theme="light"] #starfield { opacity: .4; }
+
+/* ---------- 3D 透视网格地平线 ---------- */
+.vr-grid-floor {
+  position: fixed;
+  left: -50%;
+  right: -50%;
+  bottom: -8vh;
+  height: 68vh;
+  z-index: -2;
+  pointer-events: none;
+  transform: perspective(900px) rotateX(62deg);
+  transform-origin: 50% 0;
+  background-image:
+    linear-gradient(var(--grid-line-bright) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line-bright) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(to top, rgba(0,0,0,.9), transparent 78%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,.9), transparent 78%);
+  animation: gridScroll 26s linear infinite;
+  opacity: .5;
+}
+@keyframes gridScroll {
+  from { background-position: 0 0, 0 0; }
+  to   { background-position: 0 72px, 72px 0; }
+}
+
+/* ---------- 空间浮动光球 ---------- */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
+}
+.orb-neon  { background: radial-gradient(circle, rgba(139,124,255,.55), transparent 70%); }
+.orb-cyan  { background: radial-gradient(circle, rgba(84,225,255,.4), transparent 70%); }
+.orb-pink  { background: radial-gradient(circle, rgba(255,110,199,.35), transparent 70%); }
+
+/* ---------- VR 背景场景（每页的氛围背景） ---------- */
+.vr-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  overflow: hidden;
+  background:
+    radial-gradient(1200px 800px at 78% -10%, rgba(139,124,255,.10), transparent 60%),
+    radial-gradient(1000px 700px at 10% 110%, rgba(84,225,255,.07), transparent 60%),
+    var(--bg);
+  transition: background .6s;
+}
+html[data-theme="light"] .vr-backdrop {
+  background:
+    radial-gradient(1100px 700px at 80% -10%, rgba(91,79,224,.09), transparent 60%),
+    radial-gradient(900px 600px at 8% 110%, rgba(14,155,216,.07), transparent 60%),
+    var(--bg);
+}
+
+/* ---------- 3D 悬浮作品卡片 ---------- */
+.work-card3d {
+  position: relative;
+  display: block;
+  transform-style: preserve-3d;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform .7s var(--ease);
+  background: var(--card);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-2);
+}
+.work-card3d .card-inner {
+  transform-style: preserve-3d;
+  position: relative;
+}
+.work-card3d .card-cover { position: relative; overflow: hidden; }
+.work-card3d .card-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.001);
+  transition: transform 1.2s var(--ease-out), filter .8s;
+}
+.work-card3d:hover .card-cover img { transform: scale(1.09); }
+
+/* 全息玻璃分层 */
+.work-card3d .glass-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(180deg, transparent 35%, rgba(8,8,12,.82) 100%);
+}
+.work-card3d .title-layer {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 3;
+  padding: 22px 22px 20px;
+  transform: translateZ(40px);
+  transition: transform .6s var(--ease);
+}
+.work-card3d:hover .title-layer { transform: translateZ(70px); }
+.work-card3d .tags-layer { transform: translateZ(30px); }
+.work-card3d .icon-layer {
+  position: absolute;
+  top: 16px; right: 16px;
+  z-index: 5;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--glass-bg-strong);
+  border: 1px solid var(--glass-border);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  transform: translateZ(60px);
+  opacity: 0;
+  transition: opacity .4s, transform .6s var(--ease);
+}
+.work-card3d:hover .icon-layer { opacity: 1; transform: translateZ(90px); }
+.work-card3d .icon-layer svg { width: 18px; height: 18px; }
+
+/* 高光扫过 */
+.work-card3d::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,.14) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform .9s var(--ease);
+  pointer-events: none;
+}
+.work-card3d:hover::after { transform: translateX(120%); }
+
+/* 外发光（hover 全息感） */
+.work-card3d.tilt-active {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.08),
+    0 24px 70px rgba(0,0,0,.35),
+    0 0 0 1px rgba(139,124,255,.22),
+    0 0 44px rgba(139,124,255,.22);
+}
+
+/* 悬浮呼吸动画 */
+.float-y { animation: floatY 7s ease-in-out infinite; }
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-16px); }
+}
+.float-y-slow { animation: floatY 11s ease-in-out infinite; }
+
+/* ---------- 视角倾斜（JS tilt 控件用） ---------- */
+.tilt-el { transition: transform .35s var(--ease); will-change: transform; }
+.tilt-el.tilt-strong { transition: transform .55s var(--ease); }
+
+/* ---------- 镜头式页面切换（透镜遮罩） ---------- */
+.lens-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  pointer-events: none;
+  visibility: hidden;
+}
+.lens-transition .lens-fill {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--bg) 40%, rgba(124,108,255,.4) 70%, rgba(84,225,255,.28) 90%, rgba(11,11,13,.5) 100%);
+  box-shadow: 0 0 120px 40px rgba(124,108,255,.35), inset 0 0 60px rgba(84,225,255,.25);
+  top: var(--ly, 50%);
+  left: var(--lx, 50%);
+  width: var(--ls, 0px);
+  height: var(--ls, 0px);
+  transform: translate(-50%, -50%);
+  transition: width .9s var(--ease-in-out), height .9s var(--ease-in-out);
+}
+.lens-transition.is-enter { visibility: visible; }
+.lens-transition.is-enter .lens-fill {
+  width: var(--ls-max, 260vmax);
+  height: var(--ls-max, 260vmax);
+}
+
+/* 页面进入时轻微缩放呼吸 */
+body.page-enter .site-wrap { animation: pageIn .8s var(--ease-out) both; }
+@keyframes pageIn {
+  from { opacity: 0; transform: translateZ(-40px) scale(.985); filter: blur(6px); }
+  to   { opacity: 1; transform: none; filter: none; }
+}
+
+/* ---------- 沉浸模式 ---------- */
+html.immersive .site-header,
+html.immersive .site-footer,
+html.immersive .back-link,
+html.immersive #to-top { display: none !important; }
+html.immersive .site-wrap { padding-top: 0 !important; }
+html.immersive .scene3d { perspective: 2200px; }
+
+.exit-immersive {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 300;
+  display: none;
+}
+html.immersive .exit-immersive { display: inline-flex; }
+
+/* ---------- 深度指示器 ---------- */
+.depth-hud {
+  position: fixed;
+  right: 26px;
+  bottom: 26px;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-size: .62rem;
+  letter-spacing: .3em;
+  color: var(--text-3);
+  text-transform: uppercase;
+}
+.depth-hud .depth-track {
+  width: 3px;
+  height: 60px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+.depth-hud .depth-track i {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 40%;
+  background: var(--neon-grad);
+  border-radius: 3px;
+  transition: transform .2s linear;
+}
+
+/* ---------- 自定义光标 ---------- */
+.vr-cursor {
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 3000;
+  pointer-events: none;
+  border-radius: 50%;
+  will-change: transform;
+}
+.vr-cursor-dot {
+  width: 6px; height: 6px;
+  background: var(--neon);
+  box-shadow: var(--glow-accent);
+}
+.vr-cursor-ring {
+  width: 34px; height: 34px;
+  border: 1.5px solid rgba(139,124,255,.7);
+  transition: width .25s, height .25s, border-color .25s, background .25s;
+}
+.vr-cursor-ring.is-down { width: 22px; height: 22px; }
+.vr-cursor-ring.is-hover {
+  width: 52px; height: 52px;
+  background: rgba(139,124,255,.08);
+  border-color: var(--neon-2);
+}
+html.has-cursor, html.has-cursor body { cursor: none; }
+html.has-cursor a, html.has-cursor button, html.has-cursor input,
+html.has-cursor textarea, html.has-cursor select { cursor: none; }
+
+/* 触屏/减弱动效时不显示自定义光标 */
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .vr-cursor, .depth-hud { display: none !important; }
+  .lens-transition .lens-fill { transition: none; }
+}
